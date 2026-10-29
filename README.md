@@ -1,6 +1,6 @@
 # SONA Codebook
 
-Bookdown codebook for the **SONA Exercise & Eating Study** (*Exercise Motivations and Eating Behaviors*) from the EMBARK Lab, UT Austin. It documents every variable in the study's REDCap project (PID 796), organized by measure, following the structure of the [EMBARK Lab Meta Codebook](https://github.com/embark-lab/Meta-Codebook).
+Bookdown codebook for the **SONA Exercise & Eating Study**.
 
 ## Contents
 
@@ -9,9 +9,6 @@ Bookdown codebook for the **SONA Exercise & Eating Study** (*Exercise Motivation
 | `index.Rmd`, `01-…05-*.Rmd` | Book chapters (overview, procedures, measures at a glance, all measures, data requests, references) |
 | `Codebook/sona_codebook.xlsx` / `.csv` | Full data dictionary: one row per REDCap field (variable, measure, form, label, values/calculation, branching logic, etc.) |
 | `Codebook/descriptions/*.md` | One description per measure — edit these to update the book; no R changes needed |
-| `Redcap_Raw_Codebook/Sona-codebook.pdf` | REDCap PDF codebook export the data dictionary was built from |
-| `scripts/` | Python scripts that parse the PDF and rebuild the data dictionary and description stubs |
-| `docs/` | Rendered HTML book (for GitHub Pages) |
 
 ## Building the book
 
