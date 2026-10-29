@@ -1,6 +1,6 @@
-# SONA Codebook
+# Eating & Exercise Study Codebook
 
-Bookdown codebook for the **SONA Exercise & Eating Study**.
+Bookdown codebook for the **Exercise & Eating Study**.
 
 ## Contents
 

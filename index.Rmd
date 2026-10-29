@@ -1,6 +1,6 @@
 ---
-title: "SONA Exercise & Eating Study - Study Procedures and Measures"
-author: "EMBARK Lab"
+title: "Exercise & Eating Study - Study Procedures and Measures"
+author: "Mahathi Gavuji, Lily Palmer"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
@@ -10,12 +10,12 @@ bibliography: [packages.bib]
 biblio-style: apalike
 link-citations: yes
 github-repo: embark-lab/SONA-Codebook
-description: "Study information, measures, and complete data dictionary for the SONA Exercise & Eating Study (Exercise Motivations and Eating Behaviors), EMBARK Lab, UT Austin."
+description: "Study information, measures, and complete data dictionary for the  Exercise & Eating Study, EMBARK Lab, UT Austin."
 ---
 
 # Study Overview {-}
 
-The **SONA Exercise & Eating Study**  is an online survey study of exercise and eating motivations and behaviors, run through the UT Austin SONA research participation system. Participants complete a series of  self report questionnaires =(about 1.5–2 hours) and receive 2 SONA course credits for completing the survey in full.
+The **Exercise & Eating Study**  is an online survey study of exercise and eating motivations and behaviors.
 
 The survey covers demographics, medical and treatment history, alcohol and drug use, height and weight; exercise habits and motivations; thoughts and feelings related to exercise, body image, weight gain, self-esteem, mood, mental health, and self-worth; how exercise may affect relationships with others; and hypothetical scenarios asking whether participants would keep exercising under different conditions (e.g., when sick or injured). No directly identifiable information (e.g., name, date of birth) is collected.
 

@@ -1,6 +1,6 @@
 # Measures at a Glance {#measures-at-a-glance}
 
-All instruments in the SONA survey, in the order participants completed them. *Items* counts survey questions (excluding instructions, form-status fields, and attention checks); *Scored* counts variables calculated in REDCap.
+All survey items in the study, in the order participants completed them. *Items* counts survey questions (excluding instructions, form-status fields, and attention checks); *Scored* counts variables calculated in REDCap.
 
 ```{r measures-overview, echo=FALSE, message=FALSE, warning=FALSE}
 library(dplyr)

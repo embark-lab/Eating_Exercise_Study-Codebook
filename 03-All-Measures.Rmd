@@ -1,6 +1,6 @@
 # All Measures {#all-measures}
 
-Every variable in the SONA REDCap project, organized by measure in the order participants saw them. Click a measure to see its description, scoring notes, and full variable table. Use the search bar to find a variable name, item wording, or measure, and the **Show** buttons to narrow tables to survey items or to REDCap-calculated (scored) variables.
+Every variable, organized by measure in the order participants saw them. Click a measure to see its description, scoring notes, and full variable table. Use the search bar to find a variable name, item wording, or measure, and the **Show** buttons to narrow tables to survey items or to REDCap-calculated (scored) variables.
 
 ```{r all-measures, echo=FALSE, message=FALSE, warning=FALSE}
 # ==============================
