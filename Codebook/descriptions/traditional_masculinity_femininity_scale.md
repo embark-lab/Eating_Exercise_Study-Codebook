@@ -1,0 +1,1 @@
+The **Traditional Masculinity-Femininity Scale** (TMF; Kachel, Steffens, & Niedlich, 2016) is a 6-item self-report measure of gender-role self-concept. Participants rate themselves (actual and ideal self, interests, attitudes, behavior, appearance) from 1 (*Totally masculine*) to 7 (*Totally feminine*).

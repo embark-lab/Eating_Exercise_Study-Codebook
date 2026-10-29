@@ -1,0 +1,1 @@
+The **Exercise Addiction Inventory** (EAI; Terry, Szabo, & Griffiths, 2004) assesses components of behavioral addiction applied to exercise (salience, conflict, mood modification, tolerance, withdrawal, relapse). In SONA, 8 items were administered, rated 1 (*Strongly disagree*) to 6 (*Strongly agree*).

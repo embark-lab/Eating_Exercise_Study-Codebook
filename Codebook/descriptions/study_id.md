@@ -1,0 +1,1 @@
+Participant identifiers. `unique_sona_id` is a participant-created ID (last four digits of phone number + two-digit day of birth) used to link records; `sona_id` is a hidden field used by staff for credit approval.

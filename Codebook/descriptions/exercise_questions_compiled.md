@@ -1,0 +1,1 @@
+*Exercise Questions Compiled* is the REDCap form that housed the Compulsive Exercise Test, Drive for Muscularity Scale, Exercise Dependence Scale, and the EPSI exercise/muscle-building items. Those variables are documented under their own measures above; only the form-status field remains here.

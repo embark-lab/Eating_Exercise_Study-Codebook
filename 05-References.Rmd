@@ -1,0 +1,44 @@
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
+
+# References {-}
+
+Abramovitch, A., Abramowitz, J. S., & McKay, D. (2021). The OCI-12: A syndromally valid modification of the Obsessive-Compulsive Inventory-Revised. *Psychiatry Research, 298*, 113808.
+
+Beck, A. T., Steer, R. A., & Brown, G. K. (1996). *Manual for the Beck Depression Inventory-II*. Psychological Corporation.
+
+Fairburn, C. G., & Beglin, S. J. (2008). Eating Disorder Examination Questionnaire (EDE-Q 6.0). In C. G. Fairburn, *Cognitive behavior therapy and eating disorders*. Guilford Press.
+
+Forbush, K. T., Wildes, J. E., Pollack, L. O., Dunbar, D., Luo, J., Patterson, K., ... & Watson, D. (2013). Development and validation of the Eating Pathology Symptoms Inventory (EPSI). *Psychological Assessment, 25*(3), 859–878.
+
+Garner, D. M., Olmstead, M. P., & Polivy, J. (1983). Development and validation of a multidimensional eating disorder inventory for anorexia nervosa and bulimia. *International Journal of Eating Disorders, 2*(2), 15–34.
+
+Gleaves, D. H., Graham, E. C., & Ambwani, S. (2013). Measuring "orthorexia": Development of the Eating Habits Questionnaire. *The International Journal of Educational and Psychological Assessment, 12*(2), 1–18.
+
+Godin, G., & Shephard, R. J. (1985). A simple method to assess exercise behavior in the community. *Canadian Journal of Applied Sport Sciences, 10*(3), 141–146.
+
+Hausenblas, H. A., & Symons Downs, D. (2002). How much is too much? The development and validation of the Exercise Dependence Scale. *Psychology & Health, 17*(4), 387–404.
+
+Kachel, S., Steffens, M. C., & Niedlich, C. (2016). Traditional masculinity and femininity: Validation of a new scale assessing gender roles. *Frontiers in Psychology, 7*, 956.
+
+Loumidis, K. S., & Wells, A. (1998). Assessment of beliefs in exercise dependence: The development and preliminary validation of the Exercise Beliefs Questionnaire. *Personality and Individual Differences, 25*(3), 553–567.
+
+Markland, D., & Ingledew, D. K. (1997). The measurement of exercise motives: Factorial validity and invariance across gender of a revised Exercise Motivations Inventory. *British Journal of Health Psychology, 2*(4), 361–376.
+
+McCreary, D. R., & Sasse, D. K. (2000). An exploration of the drive for muscularity in adolescent boys and girls. *Journal of American College Health, 48*(6), 297–304.
+
+Reel, J. J., Galli, N., Miyairi, M., Voelker, D., & Greenleaf, C. (2016). Development and validation of the Intuitive Exercise Scale. *Eating Behaviors, 22*, 129–132.
+
+Spielberger, C. D., Gorsuch, R. L., Lushene, R., Vagg, P. R., & Jacobs, G. A. (1983). *Manual for the State-Trait Anxiety Inventory*. Consulting Psychologists Press.
+
+Taranis, L., Touyz, S., & Meyer, C. (2011). Disordered eating and exercise: Development and preliminary validation of the Compulsive Exercise Test (CET). *European Eating Disorders Review, 19*(3), 256–268.
+
+Terry, A., Szabo, A., & Griffiths, M. (2004). The Exercise Addiction Inventory: A new brief screening tool. *Addiction Research & Theory, 12*(5), 489–499.
+
+Thornton, L. M., Munn-Chernoff, M. A., Baker, J. H., Juréus, A., Parker, R., Henders, A. K., ... & Bulik, C. M. (2018). The Anorexia Nervosa Genetics Initiative (ANGI): Overview and methods. *Contemporary Clinical Trials, 74*, 61–69.
+
+Witt, A. A., Katterman, S. N., & Lowe, M. R. (2013). Assessing the three types of dieting in the Three-Factor Model of dieting: The Dieting and Weight History Questionnaire. *Appetite, 63*, 24–30.

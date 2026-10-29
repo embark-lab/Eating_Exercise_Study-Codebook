@@ -1,0 +1,42 @@
+# Measures at a Glance {#measures-at-a-glance}
+
+All instruments in the SONA survey, in the order participants completed them. *Items* counts survey questions (excluding instructions, form-status fields, and attention checks); *Scored* counts variables calculated in REDCap.
+
+```{r measures-overview, echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(readxl)
+library(stringr)
+library(kableExtra)
+
+cb <- readxl::read_xlsx("Codebook/sona_codebook.xlsx") |>
+  mutate(across(everything(), ~ ifelse(is.na(.x), "", as.character(.x))),
+         Order = as.integer(Order))
+
+is_attention <- function(label) str_detect(label, regex("paying attention", ignore_case = TRUE))
+
+overview <- cb |>
+  group_by(Measure) |>
+  summarise(
+    first       = min(Order),
+    `REDCap form` = paste(unique(Form), collapse = ", "),
+    Variables   = n(),
+    Items       = sum(!`Field Type` %in% c("calc", "descriptive") &
+                      !str_ends(Variable, "_complete") & !is_attention(Label)),
+    `Attention checks` = sum(is_attention(Label) & !`Field Type` %in% c("calc", "descriptive")),
+    Scored      = sum(`Field Type` == "calc"),
+    .groups = "drop"
+  ) |>
+  arrange(first) |>
+  mutate(`#` = row_number(),
+         `REDCap form` = paste0("<code style='word-break:break-all;font-size:11px;'>",
+                                str_replace_all(`REDCap form`, ", ", "</code><br><code style='word-break:break-all;font-size:11px;'>"),
+                                "</code>")) |>
+  select(`#`, Measure, `REDCap form`, Items, Scored, `Attention checks`)
+
+overview |>
+  kbl(escape = FALSE) |>
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), font_size = 12) |>
+  column_spec(3, width = "18em")
+```
+
+*Exercise Questions Compiled* is a single REDCap form containing the Compulsive Exercise Test, Drive for Muscularity Scale, Exercise Dependence Scale, and the EPSI exercise/muscle-building items; those are listed as separate measures above (variables end in `_merged`).

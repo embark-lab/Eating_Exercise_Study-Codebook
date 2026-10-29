@@ -1,0 +1,1 @@
+The **Exercise Motivations Inventory-2** (EMI-2; Markland & Ingledew, 1997) is a 51-item measure of reasons for exercising (e.g., weight management, appearance, stress management, enjoyment, health, social recognition). Items complete the stem *“Personally, I exercise (or might exercise)…”* and are rated 0 (*Not at all true for me*) to 5 (*Very true for me*).

@@ -1,0 +1,1 @@
+UT Austin research information sheet for *Exercise Motivations and Eating Behaviors* (Investigator: Katherine Schaumberg, PhD). Participants must select **I acknowledge** (`ris_yes`) to proceed. The consent PDF (SONA Consent 5.28.26) is attached to `sona_ris` in REDCap.

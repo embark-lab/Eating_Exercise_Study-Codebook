@@ -1,0 +1,1 @@
+Continuous (slider) version of the Analogous Exercise Decisions task. Participants indicate the smallest amount of money ($0–100) that would lead them to skip a planned 30-minute or 1-hour workout, and the largest additional snack (0–500 kcal) they would eat in order to exercise for 30 minutes or 1 hour.

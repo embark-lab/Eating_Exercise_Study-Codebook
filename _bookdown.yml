@@ -1,0 +1,7 @@
+book_filename: "SONA-codebook"
+rmd_files: ["index.Rmd", "01-Procedures.Rmd", "02-Measures-Overview.Rmd", "03-All-Measures.Rmd", "04-Data-Requests.Rmd", "05-References.Rmd"]
+language:
+  ui:
+    chapter_name: "Chapter "
+delete_merged_file: true
+output_dir: 'docs'

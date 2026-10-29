@@ -1,0 +1,1 @@
+Opening page of the SONA survey. Participants read study instructions (no save-and-return option; complete in one sitting, about 1–2 hours, 2 SONA credits) and agree to have their responses collected, stored, and used for research. Answering **No** to `intro_consent` ends the survey (REDCap stop action on 0).

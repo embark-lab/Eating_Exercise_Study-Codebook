@@ -1,0 +1,1 @@
+The **Exercise Beliefs Questionnaire** (EBQ; Loumidis & Wells, 1998) assesses beliefs about the consequences of not exercising (e.g., social desirability, physical appearance, mental and emotional functioning, vulnerability to disease and aging). In SONA, items are rated on a 0–100 slider.

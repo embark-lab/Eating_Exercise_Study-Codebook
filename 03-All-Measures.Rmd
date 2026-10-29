@@ -1,0 +1,341 @@
+# All Measures {#all-measures}
+
+Every variable in the SONA REDCap project, organized by measure in the order participants saw them. Click a measure to see its description, scoring notes, and full variable table. Use the search bar to find a variable name, item wording, or measure, and the **Show** buttons to narrow tables to survey items or to REDCap-calculated (scored) variables.
+
+```{r all-measures, echo=FALSE, message=FALSE, warning=FALSE}
+# ==============================
+# LIBRARIES
+# ==============================
+library(dplyr)
+library(stringr)
+library(readxl)
+library(htmltools)
+library(commonmark)
+
+# ==============================
+# LOAD DATA
+# Codebook/sona_codebook.xlsx is generated from the REDCap PDF codebook
+# (Redcap_Raw_Codebook/Sona-codebook.pdf) by scripts/parse_redcap_pdf.py and
+# scripts/build_codebook.py. One row per REDCap field.
+# ==============================
+sona <- read_xlsx("Codebook/sona_codebook.xlsx") |>
+  mutate(across(everything(), ~ ifelse(is.na(.x), "", as.character(.x))),
+         Order = as.integer(Order))
+
+# ==============================
+# CLEANING FUNCTIONS
+# Same conventions as the Embark Lab Meta Codebook, so SONA measures line up
+# with the other projects' measure names if SONA is added there later.
+# ==============================
+format_measure <- function(x) {
+  x %>%
+    str_replace_all("_", " ") %>%
+    str_squish() %>%
+    str_to_upper()
+}
+
+sona <- sona |>
+  mutate(Measure = format_measure(Measure))
+
+# ==============================
+# MEASURE DESCRIPTIONS
+# Each measure has its own .md file in Codebook/descriptions/.
+# Filename = lowercased measure name with non-alphanumerics replaced by "_".
+# To add/edit a description, just create/edit that file — no R changes needed.
+# ==============================
+descriptions_dir <- "Codebook/descriptions"
+
+measure_to_filename <- function(measure_name) {
+  key <- format_measure(measure_name)
+  key <- tolower(key)
+  key <- str_replace_all(key, "[^a-z0-9]+", "_")
+  key <- str_replace_all(key, "^_+|_+$", "")
+  file.path(descriptions_dir, paste0(key, ".md"))
+}
+
+get_description <- function(measure_name) {
+  path <- measure_to_filename(measure_name)
+  if (!file.exists(path)) {
+    return(sprintf(
+      "<em style='color:#888;'>No description yet. Create <code>%s</code> to add one.</em>",
+      htmltools::htmlEscape(path)
+    ))
+  }
+  md <- paste(readLines(path, warn = FALSE, encoding = "UTF-8"), collapse = "\n")
+  commonmark::markdown_html(md)
+}
+
+# ==============================
+# VARIABLE TYPE (used for the Show filter and row colours)
+# ==============================
+sona <- sona |>
+  mutate(VarKind = case_when(
+    `Field Type` == "calc"                                   ~ "scored",
+    `Field Type` == "descriptive" | str_ends(Variable, "_complete") ~ "admin",
+    TRUE                                                     ~ "item"
+  ))
+
+# Measures in survey order (order of first appearance in REDCap)
+measure_list <- sona |>
+  group_by(Measure) |>
+  summarise(first = min(Order), .groups = "drop") |>
+  arrange(first) |>
+  pull(Measure)
+
+missing_descriptions <- measure_list[
+  !file.exists(vapply(measure_list, measure_to_filename, character(1)))
+]
+if (length(missing_descriptions) > 0) {
+  message("Measures still missing description files:\n  - ",
+          paste(missing_descriptions, collapse = "\n  - "))
+}
+
+# ==============================
+# CSS
+# ==============================
+css <- HTML("
+<style>
+  .measure-description {
+    background: #f8f9fa;
+    border-left: 3px solid #bf5700;
+    padding: 12px 16px;
+    margin-bottom: 14px;
+    font-size: 13px;
+    line-height: 1.55;
+    color: #343a40;
+    border-radius: 4px;
+  }
+  .measure-description p              { margin: 0 0 8px 0; }
+  .measure-description p:last-child   { margin-bottom: 0; }
+  .measure-description ul,
+  .measure-description ol             { margin: 4px 0 8px 20px; padding: 0; }
+  .measure-description li             { margin-bottom: 2px; }
+  .measure-description code {
+    background: #e9ecef; padding: 1px 5px; border-radius: 3px;
+    font-size: 12px; font-family: ui-monospace, Menlo, Consolas, monospace;
+  }
+  .measure-description blockquote {
+    border-left: 3px solid #e8590c; background: #fff4e6;
+    margin: 6px 0; padding: 6px 10px; color: #5c3d00;
+  }
+  .measure-description a              { color: #1971c2; text-decoration: underline; }
+
+  .search-bar { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
+  #search-input {
+    flex: 1; max-width: 360px; padding: 6px 10px;
+    border: 1px solid #ced4da; border-radius: 6px; font-size: 13px;
+  }
+  #search-input:focus { outline: none; border-color: #bf5700; box-shadow: 0 0 0 2px rgba(191,87,0,0.2); }
+  .clear-search-btn {
+    border: none; background: #868e96; color: white;
+    padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 12px;
+  }
+
+  .var-filter-bar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; align-items: center; }
+  .var-filter-btn {
+    border: none; padding: 5px 12px; border-radius: 12px; font-weight: 600; font-size: 12px;
+    cursor: pointer; opacity: 0.4; transition: all 0.18s ease-in-out; color: white;
+  }
+  .var-filter-btn.active { opacity: 1; transform: scale(1.06); box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+  .var-filter-btn.all-vars   { background-color: #868e96; }
+  .var-filter-btn.items-btn  { background-color: #1971c2; }
+  .var-filter-btn.scored-btn { background-color: #2f9e44; }
+  .expand-btn {
+    border: 1px solid #ced4da; background: white; color: #495057;
+    padding: 4px 10px; border-radius: 12px; cursor: pointer; font-size: 12px; margin-left: 8px;
+  }
+
+  .legend { font-size: 11px; color: #555; margin-bottom: 14px; }
+  .legend span { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 4px; vertical-align: middle; }
+  .leg-item   { background-color: #ffffff; border: 1px solid #ccc; }
+  .leg-scored { background-color: #e8f5e9; }
+  .leg-admin  { background-color: #f1f3f5; }
+  tr.scored td { background-color: #e8f5e9; }
+  tr.admin  td { background-color: #f1f3f5; color: #666; }
+
+  details.measure-block { border: 1px solid #dee2e6; border-radius: 8px; margin-bottom: 8px; }
+  details.measure-block > summary {
+    padding: 10px 14px; cursor: pointer; list-style: none;
+    display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+    background: #f8f9fa; border-radius: 8px; user-select: none;
+  }
+  details.measure-block > summary::-webkit-details-marker { display: none; }
+  details.measure-block > summary::before { content: '\\25B8'; color: #888; margin-right: 2px; }
+  details.measure-block[open] > summary::before { content: '\\25BE'; }
+  details.measure-block[open] > summary { border-radius: 8px 8px 0 0; border-bottom: 1px solid #dee2e6; }
+  .measure-count { font-size: 11px; color: #888; margin-left: 4px; }
+  .form-tag {
+    font-size: 10px; font-family: ui-monospace, Menlo, Consolas, monospace;
+    background: #e9ecef; color: #495057; padding: 2px 7px; border-radius: 8px;
+  }
+  .details-content { padding: 12px; }
+
+  table.dict-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table.dict-table th {
+    padding: 6px 10px; text-align: left; background: #f1f3f5;
+    font-weight: 700; border-bottom: 2px solid #dee2e6;
+  }
+  table.dict-table td { padding: 5px 10px; border-bottom: 1px solid #eee; vertical-align: top; }
+  table.dict-table td.var { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px; white-space: nowrap; }
+  table.dict-table td.type { font-size: 11px; color: #666; white-space: nowrap; }
+  table.dict-table td.val { font-size: 12px; max-width: 420px; word-break: break-word; }
+  .sec-head { font-size: 11px; color: #888; font-style: italic; display: block; margin-bottom: 2px; }
+</style>
+")
+
+# ==============================
+# FILTER CONTROLS + JS
+# ==============================
+filter_controls <- HTML("
+<div class='search-bar'>
+  <strong style='font-size:13px;'>Search:</strong>
+  <input type='text' id='search-input' placeholder='Search variable name, label, or measure...' oninput='applyFilters()'>
+  <button class='clear-search-btn' onclick='clearSearch()'>Clear</button>
+</div>
+
+<div class='var-filter-bar'>
+  <strong style='margin-right:4px; font-size:13px;'>Show:</strong>
+  <button id='vbtn-all'    class='var-filter-btn all-vars active' onclick='filterVar(\"ALL\")'>All Variables</button>
+  <button id='vbtn-items'  class='var-filter-btn items-btn'       onclick='filterVar(\"ITEMS\")'>Survey Items</button>
+  <button id='vbtn-scored' class='var-filter-btn scored-btn'      onclick='filterVar(\"SCORED\")'>Scored (calculated) Variables</button>
+  <button class='expand-btn' onclick='setAllOpen(true)'>Expand all</button>
+  <button class='expand-btn' onclick='setAllOpen(false)'>Collapse all</button>
+</div>
+
+<div class='legend'>
+  Row colours &nbsp;
+  <span class='leg-item'></span> Survey item &nbsp;
+  <span class='leg-scored'></span> Calculated in REDCap &nbsp;
+  <span class='leg-admin'></span> Instructions / form status
+</div>
+
+<script>
+var activeVar = 'ALL';
+
+function clearSearch() {
+  document.getElementById('search-input').value = '';
+  applyFilters();
+}
+
+function setAllOpen(open) {
+  document.querySelectorAll('.measure-block').forEach(function(b) {
+    if (open) { b.setAttribute('open', ''); } else { b.removeAttribute('open'); }
+  });
+}
+
+function filterVar(level) {
+  activeVar = level;
+  document.querySelectorAll('.var-filter-btn').forEach(function(b) { b.classList.remove('active'); });
+  var vmap = { 'ALL': 'vbtn-all', 'ITEMS': 'vbtn-items', 'SCORED': 'vbtn-scored' };
+  document.getElementById(vmap[level]).classList.add('active');
+  applyFilters();
+}
+
+function applyFilters() {
+  var searchTerm = (document.getElementById('search-input').value || '').toLowerCase().trim();
+
+  document.querySelectorAll('.measure-block').forEach(function(block) {
+    var measureName = (block.getAttribute('data-measure-name') || '').toLowerCase();
+    var formName    = (block.getAttribute('data-form') || '').toLowerCase();
+    var measureNameMatches = searchTerm === '' ||
+                             measureName.indexOf(searchTerm) !== -1 ||
+                             formName.indexOf(searchTerm) !== -1;
+    var visibleCount = 0;
+
+    block.querySelectorAll('tr[data-kind]').forEach(function(row) {
+      var kind = row.getAttribute('data-kind');
+      var rowVarOk = activeVar === 'ALL' ||
+                     (activeVar === 'ITEMS'  && kind === 'item') ||
+                     (activeVar === 'SCORED' && kind === 'scored');
+
+      var rowSearchOk = true;
+      if (searchTerm !== '' && !measureNameMatches) {
+        var cells = row.querySelectorAll('td');
+        var variableText = (cells[0] ? cells[0].textContent : '').toLowerCase();
+        var labelText    = (cells[1] ? cells[1].textContent : '').toLowerCase();
+        rowSearchOk = variableText.indexOf(searchTerm) !== -1 ||
+                      labelText.indexOf(searchTerm) !== -1;
+      }
+
+      var show = rowVarOk && rowSearchOk;
+      row.style.display = show ? '' : 'none';
+      if (show) visibleCount++;
+    });
+
+    block.style.display = visibleCount > 0 ? '' : 'none';
+    if (searchTerm !== '' && visibleCount > 0) { block.setAttribute('open', ''); }
+  });
+}
+</script>
+")
+
+# ==============================
+# BUILD MEASURE SECTIONS
+# ==============================
+esc <- function(x) htmltools::htmlEscape(ifelse(is.na(x), "", x))
+
+measure_sections <- lapply(measure_list, function(measure_name) {
+
+  vars  <- sona %>% filter(Measure == measure_name) %>% arrange(Order)
+  forms <- unique(vars$Form)
+
+  n_items  <- sum(vars$VarKind == "item")
+  n_scored <- sum(vars$VarKind == "scored")
+  count_label <- sprintf(
+    "<span class='measure-count'>(%d variables%s)</span>",
+    nrow(vars),
+    if (n_scored > 0) sprintf(" &middot; %d scored", n_scored) else ""
+  )
+  form_tags <- paste(sprintf("<span class='form-tag'>%s</span>", esc(forms)), collapse = " ")
+
+  rows_html <- vapply(seq_len(nrow(vars)), function(i) {
+    r <- vars[i, ]
+    label_cell <- paste0(
+      if (nzchar(r$`Section Header`))
+        sprintf("<span class='sec-head'>%s</span>", esc(str_trunc(r$`Section Header`, 220))) else "",
+      esc(r$Label),
+      if (nzchar(r$`Branching Logic (Show field only if...)`))
+        sprintf("<br><span class='sec-head'>Shown if: %s</span>",
+                esc(r$`Branching Logic (Show field only if...)`)) else ""
+    )
+    type_cell <- paste0(
+      esc(r$`Field Type`),
+      if (nzchar(r$`Text Validation Type OR Show Slider Number`))
+        sprintf(" (%s)", esc(r$`Text Validation Type OR Show Slider Number`)) else ""
+    )
+    sprintf(
+      "<tr class='%s' data-kind='%s'><td class='var'>%s</td><td>%s</td><td class='val'>%s</td><td class='type'>%s</td></tr>",
+      r$VarKind, r$VarKind, esc(r$Variable), label_cell,
+      str_replace_all(esc(r$Value), " \\| ", "<br>"),
+      type_cell
+    )
+  }, character(1))
+
+  tbl_html <- sprintf(
+    "<div style='overflow-x:auto;'>
+       <table class='dict-table'>
+         <thead><tr><th>Variable</th><th>Label</th><th>Value / Calculation</th><th>Type</th></tr></thead>
+         <tbody>%s</tbody>
+       </table>
+     </div>",
+    paste(rows_html, collapse = "\n")
+  )
+
+  desc_html <- sprintf("<div class='measure-description'>%s</div>", get_description(measure_name))
+
+  tags$details(
+    class               = "measure-block",
+    `data-measure-name` = measure_name,
+    `data-form`         = paste(forms, collapse = " "),
+    tags$summary(HTML(paste0(
+      "<strong>", esc(measure_name), "</strong> ", form_tags, " ", count_label
+    ))),
+    tags$div(class = "details-content", HTML(paste0(desc_html, tbl_html)))
+  )
+})
+
+# ==============================
+# FINAL OUTPUT
+# ==============================
+tagList(css, filter_controls, tagList(measure_sections))
+```
