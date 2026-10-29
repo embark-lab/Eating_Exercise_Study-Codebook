@@ -1,0 +1,19 @@
+# Data Requests and Terms of Use
+
+We aim to share data from the BAM project will all interested parties. 
+
+Depending on data necessary for analysis, this may include providing collaborative access to the data via external log-in to our [research drive](https://kb.wisc.edu/researchdata/page.php?id=96642) and completing a [data transfer and use agreement](https://rsp.wisc.edu/contracts/DTUA-De-IdentifiedData.pdf). We expect most data requests will take 2-4 weeks for administrative processing. 
+
+In order to request data use, please complete the following steps: 
+
+**1.** Send an email with the title 'BAM data use' to embarklab@psychaitry.wisc.edu with the following information: 
+
+  **a.** Name, affiliation, training status and year (e.g. second-year graduate student; post-baccalaureate research coordinator, first-year postdoc, assistant professor)
+
+  **b.** Tentative title for proposed analysis and 1-paragraph description
+
+  **c.** Two identified EMBARK Lab collaborators you would be interested in working with (see [lab personnel](https://embark.psychiatry.wisc.edu/index.php/people/) for information about lab members and their interests)
+
+**2.** [Book a 15-minute meeting](https://calendly.com/katherine-schaumberg/15min) with Dr. Schaumberg to discuss your idea. 
+
+For secondary analysis projects that *exclusively* use BAM data, Dr. Schaumberg will serve as senior (last) author, and at least one additional EMBARK Lab collaborator will join as an author on the project. Alternative arrangements can be discussed if BAM is one of multiple data sources for a project. 

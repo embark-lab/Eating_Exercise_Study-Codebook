@@ -1,0 +1,1 @@
+This is the Bookdown for the Body Advocacy Movement Project from the EMBARK lab. The bookdown contains a narrative document to orient readers to the study. For all code related to scoring the measures collected in the project, see the [bam-data-cleaning](https://github.com/embark-lab/bam-data-cleaning) repository, which houses this code.

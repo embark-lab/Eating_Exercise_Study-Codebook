@@ -1,0 +1,11 @@
+# Assessment Schedule
+
+```{r, echo = FALSE}
+library(readxl)
+library(kableExtra)
+assess <-readxl::read_excel('assessment_schedule.xlsx')
+
+kbl(assess) |> 
+  kable_styling(bootstrap_options = c("striped", "hover"))
+```
+*behavioral task
